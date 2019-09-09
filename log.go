@@ -9,9 +9,9 @@ var (
 	defaultClient = &Client{
 		modules: []Module{},
 		loggers: map[Level]*nlog.Logger{
-			LevelDebug:    nlog.New(os.Stdout, "DEBUG: ", nlog.Ldate|nlog.Ltime|nlog.Lshortfile),
-			LevelInfo:     nlog.New(os.Stdout, "INFO: ", nlog.Ldate|nlog.Ltime|nlog.Lshortfile),
-			LevelWarning:  nlog.New(os.Stdout, "WARNING: ", nlog.Ldate|nlog.Ltime|nlog.Lshortfile),
+			LevelDebug:    nlog.New(os.Stderr, "DEBUG: ", nlog.Ldate|nlog.Ltime|nlog.Lshortfile),
+			LevelInfo:     nlog.New(os.Stderr, "INFO: ", nlog.Ldate|nlog.Ltime|nlog.Lshortfile),
+			LevelWarning:  nlog.New(os.Stderr, "WARNING: ", nlog.Ldate|nlog.Ltime|nlog.Lshortfile),
 			LevelError:    nlog.New(os.Stderr, "ERROR: ", nlog.Ldate|nlog.Ltime|nlog.Lshortfile),
 			LevelCritical: nlog.New(os.Stderr, "CRITICAL: ", nlog.Ldate|nlog.Ltime|nlog.Lshortfile),
 		},
@@ -87,7 +87,7 @@ func New() *Client {
 		loggers: map[Level]*nlog.Logger{
 			LevelDebug:    nlog.New(os.Stdout, "DEBUG: ", nlog.Ldate|nlog.Ltime|nlog.Lshortfile),
 			LevelInfo:     nlog.New(os.Stdout, "INFO: ", nlog.Ldate|nlog.Ltime|nlog.Lshortfile),
-			LevelWarning:  nlog.New(os.Stdout, "WARNING: ", nlog.Ldate|nlog.Ltime|nlog.Lshortfile),
+			LevelWarning:  nlog.New(os.Stderr, "WARNING: ", nlog.Ldate|nlog.Ltime|nlog.Lshortfile),
 			LevelError:    nlog.New(os.Stderr, "ERROR: ", nlog.Ldate|nlog.Ltime|nlog.Lshortfile),
 			LevelCritical: nlog.New(os.Stderr, "CRITICAL: ", nlog.Ldate|nlog.Ltime|nlog.Lshortfile),
 		},
