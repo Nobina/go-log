@@ -71,15 +71,15 @@ func (c *Client) Push() error {
 }
 
 func Debug(v string)                         { defaultClient.Debug(v) }
-func Debugf(fmt string, v ...interface{})    { defaultClient.Debugf(fmt, v) }
+func Debugf(fmt string, v ...interface{})    { defaultClient.Debugf(fmt, v...) }
 func Info(v string)                          { defaultClient.Info(v) }
-func Infof(fmt string, v ...interface{})     { defaultClient.Infof(fmt, v) }
+func Infof(fmt string, v ...interface{})     { defaultClient.Infof(fmt, v...) }
 func Warning(v string)                       { defaultClient.Warning(v) }
-func Warningf(fmt string, v ...interface{})  { defaultClient.Warningf(fmt, v) }
+func Warningf(fmt string, v ...interface{})  { defaultClient.Warningf(fmt, v...) }
 func Error(v string)                         { defaultClient.Error(v) }
-func Errorf(fmt string, v ...interface{})    { defaultClient.Errorf(fmt, v) }
+func Errorf(fmt string, v ...interface{})    { defaultClient.Errorf(fmt, v...) }
 func Critical(v string)                      { defaultClient.Critical(v) }
-func Criticalf(fmt string, v ...interface{}) { defaultClient.Criticalf(fmt, v) }
+func Criticalf(fmt string, v ...interface{}) { defaultClient.Criticalf(fmt, v...) }
 
 func New() *Client {
 	c := &Client{
