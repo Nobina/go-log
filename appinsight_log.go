@@ -3,8 +3,8 @@ package log
 import (
 	"fmt"
 
-	"github.com/microsoft/ApplicationInsights-Go/appinsights"
-	"github.com/microsoft/ApplicationInsights-Go/appinsights/contracts"
+	"github.com/Microsoft/ApplicationInsights-Go/appinsights"
+	"github.com/Microsoft/ApplicationInsights-Go/appinsights/contracts"
 )
 
 type AppInsightsLogger struct {
