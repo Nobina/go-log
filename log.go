@@ -1,19 +1,22 @@
 package log
 
 import (
-	nlog "log"
+	"fmt"
+	"log"
 	"os"
+	"path/filepath"
+	"runtime"
 )
 
 var (
 	defaultClient = &Client{
 		modules: []Module{},
-		loggers: map[Level]*nlog.Logger{
-			LevelDebug:    nlog.New(os.Stderr, "DEBUG: ", nlog.Ldate|nlog.Ltime|nlog.Lshortfile),
-			LevelInfo:     nlog.New(os.Stderr, "INFO: ", nlog.Ldate|nlog.Ltime|nlog.Lshortfile),
-			LevelWarning:  nlog.New(os.Stderr, "WARNING: ", nlog.Ldate|nlog.Ltime|nlog.Lshortfile),
-			LevelError:    nlog.New(os.Stderr, "ERROR: ", nlog.Ldate|nlog.Ltime|nlog.Lshortfile),
-			LevelCritical: nlog.New(os.Stderr, "CRITICAL: ", nlog.Ldate|nlog.Ltime|nlog.Lshortfile),
+		loggers: map[Level]*log.Logger{
+			LevelDebug:    log.New(os.Stderr, "DEBUG: ", log.Ldate|log.Lmicroseconds),
+			LevelInfo:     log.New(os.Stderr, "INFO: ", log.Ldate|log.Lmicroseconds),
+			LevelWarning:  log.New(os.Stderr, "WARNING: ", log.Ldate|log.Lmicroseconds),
+			LevelError:    log.New(os.Stderr, "ERROR: ", log.Ldate|log.Lmicroseconds),
+			LevelCritical: log.New(os.Stderr, "CRITICAL: ", log.Ldate|log.Lmicroseconds),
 		},
 	}
 )
@@ -35,14 +38,21 @@ type Module interface {
 
 type Client struct {
 	modules []Module
-	loggers map[Level]*nlog.Logger
+	loggers map[Level]*log.Logger
 }
 
-func (c *Client) logf(level Level, fmt string, v ...interface{}) *Client {
-	c.loggers[level].Printf(fmt, v...)
+func (c *Client) logf(level Level, format string, v ...interface{}) *Client {
+	_, file, line, ok := runtime.Caller(2)
+
+	if !ok {
+		c.loggers[level].Printf(format, v...)
+	} else {
+		nFmt := fmt.Sprintf("%s:%d %s", filepath.Base(file), line, format)
+		c.loggers[level].Printf(nFmt, v...)
+	}
 
 	for _, module := range c.modules {
-		module.Logf(level, fmt, v...)
+		module.Logf(level, format, v...)
 	}
 
 	return c
@@ -84,12 +94,12 @@ func Criticalf(fmt string, v ...interface{}) { defaultClient.Criticalf(fmt, v...
 func New() *Client {
 	c := &Client{
 		modules: []Module{},
-		loggers: map[Level]*nlog.Logger{
-			LevelDebug:    nlog.New(os.Stdout, "DEBUG: ", nlog.Ldate|nlog.Ltime|nlog.Lshortfile),
-			LevelInfo:     nlog.New(os.Stdout, "INFO: ", nlog.Ldate|nlog.Ltime|nlog.Lshortfile),
-			LevelWarning:  nlog.New(os.Stderr, "WARNING: ", nlog.Ldate|nlog.Ltime|nlog.Lshortfile),
-			LevelError:    nlog.New(os.Stderr, "ERROR: ", nlog.Ldate|nlog.Ltime|nlog.Lshortfile),
-			LevelCritical: nlog.New(os.Stderr, "CRITICAL: ", nlog.Ldate|nlog.Ltime|nlog.Lshortfile),
+		loggers: map[Level]*log.Logger{
+			LevelDebug:    log.New(os.Stdout, "DEBUG: ", log.Ldate|log.Lmicroseconds),
+			LevelInfo:     log.New(os.Stdout, "INFO: ", log.Ldate|log.Lmicroseconds),
+			LevelWarning:  log.New(os.Stderr, "WARNING: ", log.Ldate|log.Lmicroseconds),
+			LevelError:    log.New(os.Stderr, "ERROR: ", log.Ldate|log.Lmicroseconds),
+			LevelCritical: log.New(os.Stderr, "CRITICAL: ", log.Ldate|log.Lmicroseconds),
 		},
 	}
 
