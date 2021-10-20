@@ -47,7 +47,8 @@ func (c *Client) logf(level Level, format string, v ...interface{}) *Client {
 	if !ok {
 		c.loggers[level].Printf(format, v...)
 	} else {
-		nFmt := fmt.Sprintf("%s:%d %s", filepath.Base(file), line, format)
+		baseName := filepath.Base(file)
+		nFmt := fmt.Sprintf("%s:%d %s", baseName, line, format)
 		c.loggers[level].Printf(nFmt, v...)
 	}
 
