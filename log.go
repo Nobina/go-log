@@ -44,16 +44,17 @@ type Client struct {
 func (c *Client) logf(level Level, format string, v ...interface{}) *Client {
 	_, file, line, ok := runtime.Caller(2)
 
+	logFormat := format
+
 	if !ok {
-		c.loggers[level].Printf(format, v...)
+		c.loggers[level].Printf(logFormat, v...)
 	} else {
-		baseName := filepath.Base(file)
-		nFmt := fmt.Sprintf("%s:%d %s", baseName, line, format)
-		c.loggers[level].Printf(nFmt, v...)
+		logFormat = fmt.Sprintf("%s:%d %s", filepath.Base(file), line, format)
+		c.loggers[level].Printf(logFormat, v...)
 	}
 
 	for _, module := range c.modules {
-		module.Logf(level, format, v...)
+		module.Logf(level, logFormat, v...)
 	}
 
 	return c
